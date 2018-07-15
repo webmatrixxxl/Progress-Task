@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="http://localhost:35729/livereload.js"></script>
+
+  <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common.min.css" />
+  <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2018.2.620/styles/kendo.blueopal.min.css" />
+
+  <script src="http://kendo.cdn.telerik.com/2018.2.620/js/jquery.min.js"></script>
+  <script>
+    if (typeof jQuery == "undefined") {
+      // fallback to local jQuery
+      document.write(decodeURIComponent('%3Cscript src="/path/to/local/jquery.min.js" %3E%3C/script%3E'));
+    }
+  </script>
+  <script src="http://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+
+  <script type="text/javascript" src="./accordion.kendoUI.js"></script>
+
+  <script type="text/javascript">
+    $(function() {
+      $('#accordion').kendoAccordion({
+         dataSource: ['Item 1', 'Item 2', 'Item 3']
+      });
+    });
+  </script>
+</head>
+<body>
+  <ul id="accordion">
+    <li>
+      <h3>Roll 1</h3>
+      <ul>
+        <li>Roll 1 Sub</li>
+        <li>Roll 1 Sub</li>
+        <li>Roll 1 Sub</li>
+        <li>Roll 1 Sub</li>
+        <li>Roll 1 Sub</li>
+        <li>Roll 1 Sub</li>
+        <li>Roll 1 Sub</li>
+      </ul>
+    </li>
+  </ul>
+</body>
+</html>
