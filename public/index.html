@@ -22,27 +22,24 @@
 
   <script type="text/javascript">
     $(function() {
-      $('#accordion').kendoAccordion({
-         dataSource: ['Item 1', 'Item 2', 'Item 3'],
-         // template: '<a href="">{{data}}</a>'
+      $('.accordion').kendoAccordion({
+        // dataSource: ['Item 1', 'Item 2', 'Item 3'],
+        // template: '<a href="">{{data}}</a>'
       });
     });
   </script>
 </head>
 <body>
-  <ul id="accordion">
-    <li>
-      <h3>Roll 1</h3>
-      <ul>
-        <li>Roll 1 Sub</li>
-        <li>Roll 1 Sub</li>
-        <li>Roll 1 Sub</li>
-        <li>Roll 1 Sub</li>
-        <li>Roll 1 Sub</li>
-        <li>Roll 1 Sub</li>
-        <li>Roll 1 Sub</li>
-      </ul>
-    </li>
-  </ul>
+  <div class="accordion" class="accordion__holder">
+    <div class="accordion__title" data-accordion-trigger data-accordion-id="0"></div>
+    <div class="accordion__body" data-accordion-id="0"></div>
+
+    <div class="accordion__title" data-accordion-trigger data-accordion-id="1"></div>
+    <div class="accordion__body" data-accordion-id="1"></div>
+
+    <div class="accordion__title" data-accordion-trigger data-accordion-id="2">
+      <div class="accordion__body" data-accordion-id="2"></div>
+    </div>
+  </div>
 </body>
 </html>

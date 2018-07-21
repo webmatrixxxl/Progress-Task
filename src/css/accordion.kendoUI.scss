@@ -1,0 +1,9 @@
+.accordion {
+  &__title {
+    background-color: gray;
+  }
+  &__body {
+    background-color: red;
+    max-height: 0px;
+  }
+}

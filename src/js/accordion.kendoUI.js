@@ -17,9 +17,16 @@
     options: {
       name: 'Accordion',
       autoBind: true,
-      template: ''
+      template: '',
+      settings: {
+        triggerSelector: '[data-accordion-trigger]'
+      }
     },
     refresh: function() {
+      if (!this.options.dataSource) {
+        return;
+      }
+
       var that = this,
       view = that.dataSource.view(),
       html = kendo.render(that.template, view);
@@ -42,6 +49,24 @@
       }
     },
     onInit: function () {
+      for (var i = this.element.length - 1; i >= 0; i--) {
+        console.log(this.element[i]);
+
+        var accordionTriggerEls  = this.element[i].querySelectorAll(this.options.settings.triggerSelector);
+        console.log(this._setTriggersEvent(accordionTriggerEls));
+      }
+    },
+    _setTriggersEvent: function (accordionTriggerEls) {
+      if (!(accordionTriggerEls instanceof NodeList)) {
+        throw('NodeList is expected as trigers list');
+        return;
+      }
+
+      for (var i = 0; i < accordionTriggerEls.length; i++) {
+        accordionTriggerEls[i].addEventListener('click', function (accTriggerEl) {
+          accTriggerEl.classList.add('clocked KOR');
+        });
+      }
 
     }
   });
