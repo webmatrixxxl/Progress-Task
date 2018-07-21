@@ -22,6 +22,7 @@
       settings: {
         triggerSelector: '[data-accordion-trigger]',
         triggerActiveClass: 'active',
+        bodyActiveClass: 'active',
         accordionIdData: 'data-accordion-id'
 
       }
@@ -52,12 +53,12 @@
         that.dataSource.fetch();
       }
     },
-    onInit: function () {
+    onInit: function() {
       for (var i = this.element.length - 1; i >= 0; i--) {
         this._setAccrodion(this.element[i]);
       }
     },
-    _addAccordionObj: function (accHoldeEl, accEl) {
+    _addAccordionObj: function(accHoldeEl, accEl) {
       var accId = accEl.getAttribute(this.options.settings.accordionIdData);
 
       if (this.accordionObjList.accId) {
@@ -67,13 +68,14 @@
       this.accordionObjList[accId] = {
         accId: accId,
         element: accHoldeEl,
+        isOpened: false,
         accEls: {
           triggersEls: null,
           bodyEls: null
         }
       };
     },
-    _setAccrodion: function (accordoionContinerEl) {
+    _setAccrodion: function(accordoionContinerEl) {
       var accordionTriggerEls = accordoionContinerEl.querySelectorAll(this.options.settings.triggerSelector);
 
       if (!(accordionTriggerEls instanceof NodeList)) {
@@ -86,26 +88,43 @@
         this._setTriggersEvent(accordionTriggerEls[i]);
       }
     },
-    _setTriggersEvent: function (accTriggerEl) {
-      console.log(accTriggerEl);
-      accTriggerEl.addEventListener('click', this.open.bind(this, accTriggerEl));
+    _setTriggersEvent: function(accTriggerEl) {
+      accTriggerEl.addEventListener('click', this._triggerClick.bind(this, accTriggerEl));
     },
-    open: function (accTriggerEl) {
-
-      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
+    _triggerClick: function(accTriggerEl) {
       var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
 
       if (!this.accordionObjList[accId].accEls.bodyEls) {
-        console.log(this.accordionObjList[accId].element);
-        var bodyEls = this.accordionObjList[accId].element.querySelectorAll('[' + this.options.settings.accordionIdData + '="' + accId + '"]');
-        console.log(bodyEls);
+        var bodyElsSelector = '[' + this.options.settings.accordionIdData + '="' + accId + '"]';
+        var bodyEls = this.accordionObjList[accId].element.querySelectorAll(bodyElsSelector);
         this.accordionObjList[accId].accEls.bodyEls = bodyEls;
       }
 
-      for (var i = this.accordionObjList[accId].accEls.bodyEls.length - 1; i >= 0; i--) {
-        console.log('aa');
-        this.accordionObjList[accId].accEls.bodyEls[i].classList.add('active');
+      if (this.accordionObjList[accId].isOpened) {
+        this.close(accTriggerEl, accId);
+      } else {
+        this.open(accTriggerEl, accId);
       }
+    },
+    open: function(accTriggerEl, accId) {
+      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
+      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
+
+      for (var i = bodyEls.length - 1; i >= 0; i--) {
+        bodyEls[i].classList.add('active');
+      }
+
+      this.accordionObjList[accId].isOpened = true;
+    },
+    close: function(accTriggerEl, accId) {
+      accTriggerEl.classList.remove(this.options.settings.triggerActiveClass);
+      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
+
+      for (var i = bodyEls.length - 1; i >= 0; i--) {
+        bodyEls[i].classList.remove('active');
+      }
+
+      this.accordionObjList[accId].isOpened = false;
     }
   });
 
