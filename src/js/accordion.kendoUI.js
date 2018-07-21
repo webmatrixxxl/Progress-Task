@@ -11,7 +11,7 @@
 
       kendo.ui.Widget.fn.init.call(that, element, options);
       that.template = kendo.template(that.options.template || '<p><strong>#= data #</strong></p>');
-
+      this.onInit()
       that._dataSource();
     },
     options: {
@@ -41,7 +41,11 @@
           that.dataSource.fetch();
         }
       }
-    });
+    }),
+    onInit: function () {
+
+    };
+
 
   ui.plugin(Accordion);
 

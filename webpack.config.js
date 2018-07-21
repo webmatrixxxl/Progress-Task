@@ -24,7 +24,7 @@ module.exports = {
         // css / sass / scss loader for webpack
         test: /\.(css|sass|scss)$/,
         use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+         MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'sass-loader',
@@ -36,7 +36,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: devMode ? '[name].css' : '[name].[hash].css',
+      filename: devMode ? 'accordion.kendoUI.css' : 'accordion.kendoUI.[hash].css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
     }),
     new LiveReloadPlugin()
