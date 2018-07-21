@@ -6,6 +6,7 @@
   CHANGE = 'change';
 
   var Accordion = Widget.extend({
+    accordionObjList: {},
     init: function(element, options) {
       var that = this;
 
@@ -19,7 +20,10 @@
       autoBind: true,
       template: '',
       settings: {
-        triggerSelector: '[data-accordion-trigger]'
+        triggerSelector: '[data-accordion-trigger]',
+        triggerActiveClass: 'active',
+        accordionIdData: 'data-accordion-id'
+
       }
     },
     refresh: function() {
@@ -50,24 +54,58 @@
     },
     onInit: function () {
       for (var i = this.element.length - 1; i >= 0; i--) {
-        console.log(this.element[i]);
-
-        var accordionTriggerEls  = this.element[i].querySelectorAll(this.options.settings.triggerSelector);
-        console.log(this._setTriggersEvent(accordionTriggerEls));
+        this._setAccrodion(this.element[i]);
       }
     },
-    _setTriggersEvent: function (accordionTriggerEls) {
+    _addAccordionObj: function (accHoldeEl, accEl) {
+      var accId = accEl.getAttribute(this.options.settings.accordionIdData);
+
+      if (this.accordionObjList.accId) {
+        return;
+      }
+
+      this.accordionObjList[accId] = {
+        accId: accId,
+        element: accHoldeEl,
+        accEls: {
+          triggersEls: null,
+          bodyEls: null
+        }
+      };
+    },
+    _setAccrodion: function (accordoionContinerEl) {
+      var accordionTriggerEls = accordoionContinerEl.querySelectorAll(this.options.settings.triggerSelector);
+
       if (!(accordionTriggerEls instanceof NodeList)) {
         throw('NodeList is expected as trigers list');
         return;
       }
 
       for (var i = 0; i < accordionTriggerEls.length; i++) {
-        accordionTriggerEls[i].addEventListener('click', function (accTriggerEl) {
-          accTriggerEl.classList.add('clocked KOR');
-        });
+        this._addAccordionObj(accordoionContinerEl, accordionTriggerEls[i]);
+        this._setTriggersEvent(accordionTriggerEls[i]);
+      }
+    },
+    _setTriggersEvent: function (accTriggerEl) {
+      console.log(accTriggerEl);
+      accTriggerEl.addEventListener('click', this.open.bind(this, accTriggerEl));
+    },
+    open: function (accTriggerEl) {
+
+      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
+      var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
+
+      if (!this.accordionObjList[accId].accEls.bodyEls) {
+        console.log(this.accordionObjList[accId].element);
+        var bodyEls = this.accordionObjList[accId].element.querySelectorAll('[' + this.options.settings.accordionIdData + '="' + accId + '"]');
+        console.log(bodyEls);
+        this.accordionObjList[accId].accEls.bodyEls = bodyEls;
       }
 
+      for (var i = this.accordionObjList[accId].accEls.bodyEls.length - 1; i >= 0; i--) {
+        console.log('aa');
+        this.accordionObjList[accId].accEls.bodyEls[i].classList.add('active');
+      }
     }
   });
 
