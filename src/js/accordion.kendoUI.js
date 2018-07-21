@@ -28,24 +28,23 @@
     },
     _dataSource: function() {
       var that = this;
-        // returns the datasource OR creates one if using array or configuration object
+      // returns the datasource OR creates one if using array or configuration object
 
-        that.dataSource = kendo.data.DataSource.create(that.options.dataSource);
+      that.dataSource = kendo.data.DataSource.create(that.options.dataSource);
 
-        // bind to the change event to refresh the widget
-        that.dataSource.bind(CHANGE, function() {
-          that.refresh();
-        });
+      // bind to the change event to refresh the widget
+      that.dataSource.bind(CHANGE, function() {
+        that.refresh();
+      });
 
-        if (that.options.autoBind) {
-          that.dataSource.fetch();
-        }
+      if (that.options.autoBind) {
+        that.dataSource.fetch();
       }
-    }),
+    },
     onInit: function () {
 
-    };
-
+    }
+  });
 
   ui.plugin(Accordion);
 

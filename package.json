@@ -4,8 +4,8 @@
   "description": "Interview demo task",
   "main": "index.html",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack-dev-server --content-base public/ --port 3333 --open --mode development"
+    "prod": "webpack --mode production",
+    "start": "webpack-dev-server --content-base public/ --port 3333 --open --mode development"
   },
   "author": {
     "name": "Kiril Daskalov",
