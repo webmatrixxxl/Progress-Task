@@ -8,12 +8,12 @@
   var Accordion = Widget.extend({
     accordionObjList: {},
     init: function(element, options) {
-      var that = this;
-
-      kendo.ui.Widget.fn.init.call(that, element, options);
-      that.template = kendo.template(that.options.template || '<p><strong>#= data #</strong></p>');
+      console.log('arrrrr');
+      kendo.ui.Widget.fn.init.call(this, element, options);
+      this.template = kendo.template(this._constructTemplate(this.options.template));
+      console.log(this._constructTemplate(this.options.template));
       this.onInit()
-      that._dataSource();
+      this._dataSource();
     },
     options: {
       name: 'Accordion',
@@ -23,7 +23,8 @@
         triggerSelector: '[data-accordion-trigger]',
         triggerActiveClass: 'active',
         bodyActiveClass: 'active',
-        accordionIdData: 'data-accordion-id'
+        accordionIdData: 'data-accordion-id',
+        containerClass: 'accordion'
 
       }
     },
@@ -57,6 +58,17 @@
       for (var i = this.element.length - 1; i >= 0; i--) {
         this._setAccrodion(this.element[i]);
       }
+    },
+    _constructTemplate: function(inputTemplate) {
+
+      var templateMarkup = `<div class="accordion__title" data-accordion-trigger data-accordion-id="0">
+      <h3>#= data #</h3>
+      </div>
+      <div class="accordion__body" data-accordion-id="0">
+      #= data #
+      </div>`;
+      var template
+      return template ?  template : return templateMarkup;
     },
     _addAccordionObj: function(accHoldeEl, accEl) {
       var accId = accEl.getAttribute(this.options.settings.accordionIdData);
