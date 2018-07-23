@@ -8,12 +8,10 @@
   var Accordion = Widget.extend({
     accordionObjList: {},
     init: function(element, options) {
-      console.log('arrrrr');
       kendo.ui.Widget.fn.init.call(this, element, options);
       this.template = kendo.template(this._constructTemplate(this.options.template));
-      console.log(this._constructTemplate(this.options.template));
-      this.onInit()
       this._dataSource();
+      this.onInit();
     },
     options: {
       name: 'Accordion',
@@ -33,11 +31,10 @@
         return;
       }
 
-      var that = this,
-      view = that.dataSource.view(),
-      html = kendo.render(that.template, view);
+      var view = this.dataSource.view(),
+      html = kendo.render(this.template, view);
 
-      that.element.html(html);
+      this.element.html(html);
     },
     _dataSource: function() {
       var that = this;
@@ -59,16 +56,18 @@
         this._setAccrodion(this.element[i]);
       }
     },
-    _constructTemplate: function(inputTemplate) {
-
-      var templateMarkup = `<div class="accordion__title" data-accordion-trigger data-accordion-id="0">
+    _setUnquiIds: function(accEl) {
+      // data-accordion-id
+      accEl.setAttribute(this.options.settings.accordionIdData, 0);
+    },
+    _constructTemplate: function(inputTelplate) {
+      var template =
+      `<div class="accordion__title" data-accordion-trigger>
       <h3>#= data #</h3>
       </div>
-      <div class="accordion__body" data-accordion-id="0">
-      #= data #
-      </div>`;
-      var template
-      return template ?  template : return templateMarkup;
+      <div class="accordion__body">#= data #</div>`;
+
+      return inputTelplate ? inputTelplate : template;
     },
     _addAccordionObj: function(accHoldeEl, accEl) {
       var accId = accEl.getAttribute(this.options.settings.accordionIdData);
@@ -97,13 +96,19 @@
 
       for (var i = 0; i < accordionTriggerEls.length; i++) {
         this._addAccordionObj(accordoionContinerEl, accordionTriggerEls[i]);
+        if (this.options.dataSource) {
+          this._setUnquiIds(accordionTriggerEls[i], i);
+        }
         this._setTriggersEvent(accordionTriggerEls[i]);
       }
     },
     _setTriggersEvent: function(accTriggerEl) {
+      console.log(accTriggerEl);
       accTriggerEl.addEventListener('click', this._triggerClick.bind(this, accTriggerEl));
     },
     _triggerClick: function(accTriggerEl) {
+      console.log('aaaa');
+      console.log(accTriggerEl);
       var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
 
       if (!this.accordionObjList[accId].accEls.bodyEls) {
@@ -140,6 +145,7 @@
     }
   });
 
+  //
   ui.plugin(Accordion);
 
 })(jQuery);
