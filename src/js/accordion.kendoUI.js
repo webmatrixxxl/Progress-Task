@@ -12,6 +12,7 @@
       this.template = kendo.template(this._constructTemplate(this.options.template));
       this._dataSource();
       this.onInit();
+      console.log(this);
     },
     options: {
       name: 'Accordion',
@@ -57,12 +58,15 @@
       }
     },
     _setUnquiIds: function(accEl) {
-      // data-accordion-id
-      accEl.setAttribute(this.options.settings.accordionIdData, 0);
+      return 1;
+      // var unqueId = + new Date();
+      // unqueId = unqueId.toString();
+      // unqueId = unqueId.substr(unqueId.length - 4);
+      // accEl.setAttribute(this.options.settings.accordionIdData, unqueId);
     },
     _constructTemplate: function(inputTelplate) {
       var template =
-      `<div class="accordion__title" data-accordion-trigger>
+      `<div class="accordion__title" data-accordion-trigger data-accordion-id="#= getKendo('Accordion')._setUnquiIds(1) #">
       <h3>#= data #</h3>
       </div>
       <div class="accordion__body">#= data #</div>`;
@@ -85,6 +89,9 @@
           bodyEls: null
         }
       };
+      console.log('KOOOOOORR');
+      console.log(this.accordionObjList);
+      console.log(accId);
     },
     _setAccrodion: function(accordoionContinerEl) {
       var accordionTriggerEls = accordoionContinerEl.querySelectorAll(this.options.settings.triggerSelector);
@@ -95,10 +102,13 @@
       }
 
       for (var i = 0; i < accordionTriggerEls.length; i++) {
-        this._addAccordionObj(accordoionContinerEl, accordionTriggerEls[i]);
-        if (this.options.dataSource) {
-          this._setUnquiIds(accordionTriggerEls[i], i);
+       if (this.options.dataSource) {
+          this._setUnquiIds(accordionTriggerEls[i]);
         }
+
+        this._addAccordionObj(accordoionContinerEl, accordionTriggerEls[i]);
+
+
         this._setTriggersEvent(accordionTriggerEls[i]);
       }
     },
