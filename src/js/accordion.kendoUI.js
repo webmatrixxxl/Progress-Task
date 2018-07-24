@@ -17,12 +17,38 @@
       template: '',
       settings: {
         triggerSelector: '[data-k-accordion-trigger]',
+        triggerClass: 'k-accordion__title',
         triggerActiveClass: 'active',
+        bodyClass: 'k-accordion__body',
         bodyActiveClass: 'active',
-        accordionIdData: 'data-k-accordion-id'
+        accordionIdData: 'data-k-accordion-id',
+        animationClass: 'k-accordion__body--animate'
       }
     },
     _unqueCounter: 0,
+    open: function(accTriggerEl, accId) {
+      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
+
+      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
+
+      for (var i = bodyEls.length - 1; i >= 0; i--) {
+        bodyEls[i].classList.add('active');
+        bodyEls[i].style.height = (this.accordionObjList[accId].isOpened ? 0 : bodyEls[i].scrollHeight) + 'px';
+      }
+
+      this.accordionObjList[accId].isOpened = true;
+    },
+    close: function(accTriggerEl, accId) {
+      accTriggerEl.classList.remove(this.options.settings.triggerActiveClass);
+      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
+
+      for (var i = bodyEls.length - 1; i >= 0; i--) {
+        bodyEls[i].classList.remove('active');
+        bodyEls[i].style.height = (this.accordionObjList[accId].isOpened ? 0 : bodyEls[i].scrollHeight) + 'px';
+      }
+
+      this.accordionObjList[accId].isOpened = false;
+    }
     refresh: function() {
       if (!this.options.dataSource) {
         return;
@@ -61,10 +87,10 @@
     _constructTemplate: function(inputTelplate) {
       var template =
       `# ++this._unqueCounter; var id = this._setUnquiIds(this._unqueCounter); #
-      <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="#= id #">
+      <div class="#= this.options.settings.triggerClass #" data-k-accordion-trigger data-k-accordion-id="#= id #">
       <h3>#= data.title #</h3>
       </div>
-      <div class="k-accordion__body" data-k-accordion-id="#= id #">#= data.body #</div>`;
+      <div class="#= this.options.settings.bodyClass + ' ' + this.options.settings.animationClass #" data-k-accordion-id="#= id #">#= data.body #</div>`;
 
       return inputTelplate ? kendo.template(inputTelplate) : kendo.template(template).bind(this);
     },
@@ -109,9 +135,19 @@
       var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
 
       if (!this.accordionObjList[accId].accEls.bodyEls) {
-        var bodyElsSelector = '[' + this.options.settings.accordionIdData + '="' + accId + '"]';
+        var bodyElsSelector = '.' + this.options.settings.bodyClass + '[' + this.options.settings.accordionIdData + '="' + accId + '"]';
         var bodyEls = this.accordionObjList[accId].element.querySelectorAll(bodyElsSelector);
         this.accordionObjList[accId].accEls.bodyEls = bodyEls;
+
+        for (var i = bodyEls.length - 1; i >= 0; i--) {
+          this._startAnimation = this._startAnimation.bind(this, bodyEls[i], accId);
+          this._endAnimation = this._endAnimation.bind(this, bodyEls[i], accId);
+
+          bodyEls[i].addEventListener('animationstart', this._startAnimation);
+          bodyEls[i].addEventListener('animationend', this._endAnimation);
+          bodyEls[i].addEventListener('transitionstart', this._startAnimation);
+          bodyEls[i].addEventListener('transitionend', this._endAnimation);
+        }
       }
 
       if (this.accordionObjList[accId].isOpened) {
@@ -120,25 +156,23 @@
         this.open(accTriggerEl, accId);
       }
     },
-    open: function(accTriggerEl, accId) {
-      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
-      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
-
-      for (var i = bodyEls.length - 1; i >= 0; i--) {
-        bodyEls[i].classList.add('active');
+    _startAnimation: function(el, accId) {
+      if (this.accordionObjList[accId].isOpened) {
+        console.log('befor opening start');
+      } else {
+        console.log('befor closing start');
       }
 
-      this.accordionObjList[accId].isOpened = true;
+      // TODO: implement some events
     },
-    close: function(accTriggerEl, accId) {
-      accTriggerEl.classList.remove(this.options.settings.triggerActiveClass);
-      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
-
-      for (var i = bodyEls.length - 1; i >= 0; i--) {
-        bodyEls[i].classList.remove('active');
+    _endAnimation: function(el, accId) {
+      if (this.accordionObjList[accId].isOpened) {
+        console.log('after opening finished');
+      } else {
+        console.log('after closing finished');
       }
 
-      this.accordionObjList[accId].isOpened = false;
+      // TODO: implement some events
     }
   });
 

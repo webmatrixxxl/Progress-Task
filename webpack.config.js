@@ -24,7 +24,7 @@ module.exports = {
         // css / sass / scss loader for webpack
         test: /\.(css|sass|scss)$/,
         use: [
-         MiniCssExtractPlugin.loader,
+          MiniCssExtractPlugin.loader,
           'css-loader',
           'postcss-loader',
           'sass-loader',
@@ -39,6 +39,7 @@ module.exports = {
       filename: devMode ? 'accordion.kendoUI.css' : 'accordion.kendoUI.[hash].css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
     }),
-    new LiveReloadPlugin()
+    new LiveReloadPlugin(),
+    require('autoprefixer')
   ],
 };
