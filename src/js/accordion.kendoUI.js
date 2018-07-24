@@ -2,31 +2,27 @@
   var kendo = window.kendo,
   ui = kendo.ui,
   Widget = ui.Widget,
-
   CHANGE = 'change';
 
   var Accordion = Widget.extend({
     accordionObjList: {},
     init: function(element, options) {
       kendo.ui.Widget.fn.init.call(this, element, options);
-      this.template = kendo.template(this._constructTemplate(this.options.template));
+      this.template = this._constructTemplate(this.options.template);
       this._dataSource();
-      this.onInit();
-      console.log(this);
     },
     options: {
       name: 'Accordion',
       autoBind: true,
       template: '',
       settings: {
-        triggerSelector: '[data-accordion-trigger]',
+        triggerSelector: '[data-k-accordion-trigger]',
         triggerActiveClass: 'active',
         bodyActiveClass: 'active',
-        accordionIdData: 'data-accordion-id',
-        containerClass: 'accordion'
-
+        accordionIdData: 'data-k-accordion-id'
       }
     },
+    _unqueCounter: 0,
     refresh: function() {
       if (!this.options.dataSource) {
         return;
@@ -46,35 +42,43 @@
       // bind to the change event to refresh the widget
       that.dataSource.bind(CHANGE, function() {
         that.refresh();
+        that._build();
       });
 
       if (that.options.autoBind) {
         that.dataSource.fetch();
       }
     },
-    onInit: function() {
+    _build: function() {
       for (var i = this.element.length - 1; i >= 0; i--) {
         this._setAccrodion(this.element[i]);
       }
     },
-    _setUnquiIds: function(accEl) {
-      return 1;
-      // var unqueId = + new Date();
-      // unqueId = unqueId.toString();
-      // unqueId = unqueId.substr(unqueId.length - 4);
-      // accEl.setAttribute(this.options.settings.accordionIdData, unqueId);
+    _setUnquiIds: function(index) {
+      var result = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 4) + '_' + index++;
+      return result;
     },
     _constructTemplate: function(inputTelplate) {
       var template =
-      `<div class="accordion__title" data-accordion-trigger data-accordion-id="#= getKendo('Accordion')._setUnquiIds(1) #">
-      <h3>#= data #</h3>
+      `# ++this._unqueCounter; var id = this._setUnquiIds(this._unqueCounter); #
+      <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="#= id #">
+      <h3>#= data.title #</h3>
       </div>
-      <div class="accordion__body">#= data #</div>`;
+      <div class="k-accordion__body" data-k-accordion-id="#= id #">#= data.body #</div>`;
 
-      return inputTelplate ? inputTelplate : template;
+      return inputTelplate ? kendo.template(inputTelplate) : kendo.template(template).bind(this);
     },
-    _addAccordionObj: function(accHoldeEl, accEl) {
-      var accId = accEl.getAttribute(this.options.settings.accordionIdData);
+    _addAccordionObj: function(accHoldeEl, accTrigerEl) {
+      var accId = accTrigerEl.getAttribute(this.options.settings.accordionIdData);
+
+      try {
+        if (!accId) {
+          throw 'Error: Missing \'accordionId\' in trigger element:';
+        }
+      } catch(err) {
+        console.log('%c' + err, 'color: red');
+        console.log(accTrigerEl);
+      }
 
       if (this.accordionObjList.accId) {
         return;
@@ -89,36 +93,19 @@
           bodyEls: null
         }
       };
-      console.log('KOOOOOORR');
-      console.log(this.accordionObjList);
-      console.log(accId);
     },
     _setAccrodion: function(accordoionContinerEl) {
       var accordionTriggerEls = accordoionContinerEl.querySelectorAll(this.options.settings.triggerSelector);
 
-      if (!(accordionTriggerEls instanceof NodeList)) {
-        throw('NodeList is expected as trigers list');
-        return;
-      }
-
       for (var i = 0; i < accordionTriggerEls.length; i++) {
-       if (this.options.dataSource) {
-          this._setUnquiIds(accordionTriggerEls[i]);
-        }
-
         this._addAccordionObj(accordoionContinerEl, accordionTriggerEls[i]);
-
-
         this._setTriggersEvent(accordionTriggerEls[i]);
       }
     },
     _setTriggersEvent: function(accTriggerEl) {
-      console.log(accTriggerEl);
       accTriggerEl.addEventListener('click', this._triggerClick.bind(this, accTriggerEl));
     },
     _triggerClick: function(accTriggerEl) {
-      console.log('aaaa');
-      console.log(accTriggerEl);
       var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
 
       if (!this.accordionObjList[accId].accEls.bodyEls) {

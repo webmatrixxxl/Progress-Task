@@ -22,54 +22,84 @@
 
   <script type="text/javascript">
     $(function() {
+      $('.accordion-inst').kendoAccordion({});
 
-    // $('.accordion').kendoAccordion({});
+      $('#k-accordion-data_sorce-template').kendoAccordion({
+        dataSource: [{
+          id: 32,
+          title: 'Consectetur adipiscing elit [1]',
+          text: 'Lorem ipsum dolor sit amet [1]'
+        },
+        {
+          id: 33,
+          title: 'Consectetur adipiscing elit [2]',
+          text: 'Lorem ipsum dolor sit amet [2]'
+        },
+        {
+          id: 34,
+          title: 'Consectetur adipiscing elit [3]',
+          text: 'Lorem ipsum dolor sit amet [3]'
+        }],
+        template: document.querySelector('#template-refference').innerHTML
+      });
 
-
-    $('.accordion').kendoAccordion({
-      dataSource: ['Item 1', 'Item 2', 'Item 3'],
-      // template: document.querySelector('#kor').innerHTML
+      $('#k-accordion-data_sorce').kendoAccordion({
+        dataSource: [{
+          title: 'Consectetur adipiscing elit [1]',
+          body: 'Lorem ipsum dolor sit amet [1]'
+        },
+        {
+          title: 'Consectetur adipiscing elit [2]',
+          body: 'Lorem ipsum dolor sit amet [2]'
+        },
+        {
+          title: 'Consectetur adipiscing elit [3]',
+          body: 'Lorem ipsum dolor sit amet [3]'
+        }]
+      });
     });
-
-  });
-</script>
+  </script>
 </head>
 <body>
-  <div class="accordion">
-   <!--  <div class="accordion__title" data-accordion-trigger data-accordion-id="0">
+  <div class="k-accordion accordion-inst">
+    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="0">
       <h3>Test 1</h3>
     </div>
-    <div class="accordion__body" data-accordion-id="0">
+    <div class="k-accordion__body" data-k-accordion-id="0">
       teasdasdpalsdpalsdplas
       dl apsldapsld
       apsldapsldapl
     </div>
 
-    <div class="accordion__title" data-accordion-trigger data-accordion-id="1">
+    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="1">
       <h3>Test 2</h3>
     </div>
-    <div class="accordion__body" data-accordion-id="1">
+    <div class="k-accordion__body" data-k-accordion-id="1">
       teasdasdpalsdpalsdplas
       dl apsldapsld
       apsldapsldapl
     </div>
 
-    <div class="accordion__title" data-accordion-trigger data-accordion-id="2">
+    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="2">
       <h3>Test 2</h3>
-      <div class="accordion__body" data-accordion-id="2">
+      <div class="k-accordion__body" data-k-accordion-id="2">
         teasdasdpalsdpalsdplas
         dl apsldapsld
         apsldapsldapl
       </div>
-    </div> -->
+    </div>
   </div>
 
-  <template id="kor">
-    <div class="accordion__title" data-accordion-trigger>
-      <h3>#= data #</h3>
+  <div class="k-accordion" id="k-accordion-data_sorce-template"></div>
+
+  <div class="k-accordion" id="k-accordion-data_sorce"></div>
+
+  <template id="template-refference">
+    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="#= data.id #">
+      <h3>#= data.title #</h3>
     </div>
-    <div class="accordion__body">
-      #= data #
+    <div class="k-accordion__body" data-k-accordion-id="#= data.id #">
+      #= data.text #
     </div>
   </template>
 </body>
