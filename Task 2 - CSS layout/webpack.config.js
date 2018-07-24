@@ -5,8 +5,7 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
   entry: {
-    'main': './src/index.js',
-    'accordion.kendoUI': './src/js/accordion.kendoUI.js'
+    'main': './src/index.js'
   },
   resolve: {
     extensions: ['.js', '.css', '.scss', '.sass']
@@ -24,10 +23,19 @@ module.exports = {
         // css / sass / scss loader for webpack
         test: /\.(css|sass|scss)$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
+           MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { url: false, sourceMap: true } },
+          {
+            loader: 'postcss-loader',
+            options: {
+              ident: 'postcss',
+              config: {
+                path: './postcss.config.js'
+              },
+              plugins: loader => [require('autoprefixer')()]
+            }
+          },
+          { loader: 'sass-loader', options: { sourceMap: true } }
         ]
       }
     ]
@@ -36,10 +44,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       // Options similar to the same options in webpackOptions.output
       // both options are optional
-      filename: devMode ? 'accordion.kendoUI.css' : 'accordion.kendoUI.[hash].css',
+      filename: 'style.css',
       chunkFilename: devMode ? '[id].css' : '[id].[hash].css',
     }),
-    new LiveReloadPlugin(),
-    require('autoprefixer')
+    new LiveReloadPlugin()
   ],
 };

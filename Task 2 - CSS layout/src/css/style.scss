@@ -1,5 +1,4 @@
 @import '_reboot.css';
-@import 'accordion.kendoUI.scss';
 
 body {
   padding: 20px;
@@ -9,10 +8,3 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0px;
   padding: 0px;
 }
-
-.k-accordion {
-  & + & {
-    margin-top: 40px;
-  }
-}
-
