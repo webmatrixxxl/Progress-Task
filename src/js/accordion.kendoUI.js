@@ -17,7 +17,7 @@
       template: '',
       settings: {
         triggerSelector: '[data-k-accordion-trigger]',
-        triggerClass: 'k-accordion__title',
+        triggerClass: 'k-accordion__heading',
         triggerActiveClass: 'active',
         bodyClass: 'k-accordion__body',
         bodyActiveClass: 'active',
@@ -48,7 +48,7 @@
       }
 
       this.accordionObjList[accId].isOpened = false;
-    }
+    },
     refresh: function() {
       if (!this.options.dataSource) {
         return;

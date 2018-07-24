@@ -27,17 +27,17 @@
       $('#k-accordion-data_sorce-template').kendoAccordion({
         dataSource: [{
           id: 32,
-          title: 'Consectetur adipiscing elit [1]',
+          title: 'Title [1]',
           text: 'Lorem ipsum dolor sit amet [1]'
         },
         {
           id: 33,
-          title: 'Consectetur adipiscing elit [2]',
+          title: 'Title [2]',
           text: 'Lorem ipsum dolor sit amet [2]'
         },
         {
           id: 34,
-          title: 'Consectetur adipiscing elit [3]',
+          title: 'Title [3]',
           text: 'Lorem ipsum dolor sit amet [3]'
         }],
         template: document.querySelector('#template-refference').innerHTML
@@ -45,15 +45,15 @@
 
       $('#k-accordion-data_sorce').kendoAccordion({
         dataSource: [{
-          title: 'Consectetur adipiscing elit [1]',
+          title: 'Heading [1]',
           body: 'Lorem ipsum dolor sit amet [1]'
         },
         {
-          title: 'Consectetur adipiscing elit [2]',
+          title: 'Heading [2]',
           body: 'Lorem ipsum dolor sit amet [2]'
         },
         {
-          title: 'Consectetur adipiscing elit [3]',
+          title: 'Heading [3]',
           body: 'Lorem ipsum dolor sit amet [3]'
         }]
       });
@@ -62,7 +62,7 @@
 </head>
 <body>
   <div class="k-accordion accordion-inst">
-    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="0">
+    <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="0">
       <h3>Test 1</h3>
     </div>
     <div class="k-accordion__body acc-animation" data-k-accordion-id="0">
@@ -71,7 +71,7 @@
       apsldapsldapl
     </div>
 
-    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="1">
+    <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="1">
       <h3>Test 2</h3>
     </div>
     <div class="k-accordion__body acc-animation" data-k-accordion-id="1">
@@ -80,7 +80,7 @@
       apsldapsldapl
     </div>
 
-    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="2">
+    <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="2">
       <h3>Test 3</h3>
       <div class="k-accordion__body acc-animation" data-k-accordion-id="2">
         teasdasdpalsdpalsdplas
@@ -95,7 +95,7 @@
   <div class="k-accordion" id="k-accordion-data_sorce"></div>
 
   <template id="template-refference">
-    <div class="k-accordion__title" data-k-accordion-trigger data-k-accordion-id="#= data.id #">
+    <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="#= data.id #">
       <h3>#= data.title #</h3>
     </div>
     <div class="k-accordion__body k-accordion__body--animate" data-k-accordion-id="#= data.id #">

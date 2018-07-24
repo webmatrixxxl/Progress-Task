@@ -1,9 +1,20 @@
 .k-accordion {
-  &__title {
-    background-color: gray;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  box-shadow: 0 1px 1px rgba(0,0,0,.05);
+
+  &__heading {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    border: 1px solid #ddd;
+    background-color: #f5f5f5;
+    cursor: pointer;
   }
   &__body {
-    background-color: red;
+    background-color: #fff;
     height: 0;
     overflow: hidden;
 
@@ -17,3 +28,5 @@
 .acc-animation {
   transition: height 0.6s ease;
 }
+
+
