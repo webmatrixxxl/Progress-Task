@@ -93,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
 
   &__menu {
     position: sticky;
-    top: $tb-padding * 2;
+    top: 0;
     bottom: 0;
     display: flex;
     overflow: auto;
