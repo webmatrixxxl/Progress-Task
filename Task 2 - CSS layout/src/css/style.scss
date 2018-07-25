@@ -37,8 +37,8 @@ h1, h2, h3, h4, h5, h6 {
   &__header {
     display: flex;
     position: fixed;
-    right: 75px;
-    top: 25px;
+    right: 3%;
+    top: 2%;
   }
 
   &__time {
@@ -159,8 +159,8 @@ h1, h2, h3, h4, h5, h6 {
   &__footer {
     display: flex;
     position: fixed;
-    right: 75px;
-    bottom: 25px;
+    right: 3%;
+    bottom: 2%;
 
     &__item {
       & + & {
