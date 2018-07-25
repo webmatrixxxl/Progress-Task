@@ -16,6 +16,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .appointments {
+  $tb-padding: 3%;
   display: flex;
   flex-flow: row;
   width: 100%;
@@ -24,7 +25,7 @@ h1, h2, h3, h4, h5, h6 {
   background: #134e5e;
   background: linear-gradient(to top, #1e4752, #5b8098);
   overflow: auto;
-  padding: 3% 2.8%;
+  padding: $tb-padding 2.8%;
   position: relative;
   font-size: 100%;
 
@@ -37,7 +38,7 @@ h1, h2, h3, h4, h5, h6 {
   &__header {
     display: flex;
     position: fixed;
-    right: 3%;
+    right: $tb-padding;
     top: 2%;
   }
 
@@ -92,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
 
   &__menu {
     position: sticky;
-    top: 0;
+    top: $tb-padding * 2;
     bottom: 0;
     display: flex;
     overflow: auto;
@@ -168,7 +169,7 @@ h1, h2, h3, h4, h5, h6 {
   &__footer {
     display: flex;
     position: fixed;
-    right: 3%;
+    right: $tb-padding;
     bottom: 4.5%;
 
     &__item {
