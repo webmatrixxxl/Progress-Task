@@ -3,7 +3,6 @@
 
 html, body {
   height: 100%;
-  font-size: 1.2vw;
 }
 
 body {
@@ -27,7 +26,15 @@ h1, h2, h3, h4, h5, h6 {
   overflow: auto;
   padding: $tb-padding 2.8%;
   position: relative;
-  font-size: 100%;
+  font-size: 1.2vw;
+
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    font-size: 1.6vw;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 2.2vw;
+  }
 
   &__box {
     &--half {
