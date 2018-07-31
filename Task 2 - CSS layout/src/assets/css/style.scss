@@ -77,6 +77,10 @@ h1, h2, h3, h4, h5, h6 {
 
       &:hover {
         background-color: #3393DD;
+
+        .appointments__list__item__btn {
+          border-color: #60b9f3;
+        }
       }
 
       & + & {
@@ -111,7 +115,7 @@ h1, h2, h3, h4, h5, h6 {
         display: block;
         padding: 1% 7%;
         background: transparent;
-        border: 1px solid #2C7CB4;
+        border: 2px solid #206596;
         color: inherit;
         text-align: center;
         font-size: 80%;
