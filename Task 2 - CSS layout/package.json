@@ -1,7 +1,7 @@
 {
-  "name": "progress_ui_task",
+  "name": "progress-ui_task_2",
   "version": "0.0.0",
-  "description": "Interview demo task",
+  "description": "Task 2: CSS layout",
   "main": "index.html",
   "scripts": {
     "prod": "webpack --mode production",
