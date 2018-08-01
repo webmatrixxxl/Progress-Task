@@ -8,15 +8,16 @@
   <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common.min.css" />
   <link rel="stylesheet" href="http://kendo.cdn.telerik.com/2018.2.620/styles/kendo.blueopal.min.css" />
 
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+
   <script src="http://kendo.cdn.telerik.com/2018.2.620/js/jquery.min.js"></script>
   <script>
-    if (typeof jQuery == "undefined") {
+    if (typeof jQuery === 'undefined') {
       // fallback to local jQuery
       document.write(decodeURIComponent('%3Cscript src="/path/to/local/jquery.min.js" %3E%3C/script%3E'));
     }
   </script>
   <script src="http://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
-
 
   <script type="text/javascript">
     $(function() {
@@ -25,18 +26,18 @@
       $('#k-accordion-data_sorce-template').kendoAccordion({
         dataSource: [{
           id: 32,
-          title: 'Title [1]',
-          text: 'Lorem ipsum dolor sit amet [1]'
+          title: 'Section [1]',
+          text: 'Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).'
         },
         {
           id: 33,
-          title: 'Title [2]',
-          text: 'Lorem ipsum dolor sit amet [2]'
+          title: 'Section [2]',
+          text: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.'
         },
         {
           id: 34,
-          title: 'Title [3]',
-          text: 'Lorem ipsum dolor sit amet [3]'
+          title: 'Section [3]',
+          text: 'If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.'
         }],
         template: document.querySelector('#template-refference').innerHTML
       });
@@ -44,15 +45,15 @@
       $('#k-accordion-data_sorce').kendoAccordion({
         dataSource: [{
           title: 'Heading [1]',
-          body: 'Lorem ipsum dolor sit amet [1]'
+          body: 'Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).'
         },
         {
           title: 'Heading [2]',
-          body: 'Lorem ipsum dolor sit amet [2]'
+          body: 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.'
         },
         {
           title: 'Heading [3]',
-          body: 'Lorem ipsum dolor sit amet [3]'
+          body: 'If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text.'
         }]
       });
     });
@@ -61,29 +62,23 @@
 <body>
   <div class="k-accordion accordion-inst">
     <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="0">
-      <h3>Test 1</h3>
+      <h3>Why do we use it?</h3><i class="fas fa-angle-left"></i>
     </div>
     <div class="k-accordion__body acc-animation" data-k-accordion-id="0">
-      teasdasdpalsdpalsdplas
-      dl apsldapsld
-      apsldapsldapl
+      Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
     </div>
 
     <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="1">
-      <h3>Test 2</h3>
+      <h3>What is Lorem Ipsum?</h3><i class="fas fa-angle-left"></i>
     </div>
     <div class="k-accordion__body acc-animation" data-k-accordion-id="1">
-      teasdasdpalsdpalsdplas
-      dl apsldapsld
-      apsldapsldapl
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     </div>
 
     <div class="k-accordion__heading" data-k-accordion-trigger data-k-accordion-id="2">
-      <h3>Test 3</h3>
+      <h3 class="k-accordion__heading__title">Where can I get some? <i class="fas fa-angle-left"></i></h3>
       <div class="k-accordion__body acc-animation" data-k-accordion-id="2">
-        teasdasdpalsdpalsdplas
-        dl apsldapsld
-        apsldapsldapl
+        There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.
       </div>
     </div>
   </div>
