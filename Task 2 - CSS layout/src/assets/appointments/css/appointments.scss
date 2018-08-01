@@ -217,6 +217,7 @@
 
     &__icon {
       margin-right: 10%;
+      cursor: pointer;
     }
 
     input[type=range] {
@@ -227,9 +228,15 @@
       max-height: 0.6vh;
       min-width: 140px;
       border-radius: 6vw;
+      cursor: pointer;
     }
   }
 
+  &__settings {
+    &__icon {
+      cursor: pointer;
+    }
+  }
 
   &__footer {
     display: flex;
