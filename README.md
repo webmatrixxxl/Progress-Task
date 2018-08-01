@@ -11,6 +11,7 @@ P.S. I wlould like to add some coments about the implementation or even better t
 To-do:
 * Task 1 - implement real callback (onBeforeOpen, onAfterOpen, onBeforeClose, onAfterClose)
 * Task 1 - fix body coteiners do not resize on window width change
+* Task 1 - fix strange problem on Chrome wiith animation and transition event listeners
 * Task 1 - fix some bugs
 
 Thank you!
