@@ -6,13 +6,22 @@ function startTime() {
     return;
   }
 
-  const d = new Date();
-  const amOrPm = (d.getHours() < 12) ? 'AM' : 'PM';
-  const hour = (d.getHours() < 12) ? d.getHours() : d.getHours() - 12;
+  const today = new Date();
+  const amOrPm = (today.getHours() < 12) ? 'AM' : 'PM';
+  const h = today.getHours();
+  let m = today.getMinutes();
+  let s = today.getSeconds();
+  m = checkTime(m);
+  s = checkTime(s);
 
-  clockEl.innerHTML = hour + ':' + d.getMinutes() + ' ' + amOrPm;
-  clockEl.setAttribute('datetime', `${d.getFullYear()}-${ d.getMonth()}-${d.getDate()}`);
+  clockEl.innerHTML = h + ':' + m + ' ' + amOrPm;
+  clockEl.setAttribute('datetime', `${today.getFullYear()}-${today.getMonth()}-${today.getDate()}`);
   setTimeout(startTime, 500);
+}
+
+function checkTime(i) {
+  if (i < 10) {i = '0' + i};
+  return i;
 }
 
 startTime();
