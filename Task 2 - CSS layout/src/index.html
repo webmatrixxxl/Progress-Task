@@ -5,15 +5,14 @@
   <title>Task 2: CSS layout</title>
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css" integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
-
   <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic" rel="stylesheet">
 </head>
 <body>
-  <div class="appointments">
+  <div class="appointments" >
     <header class="appointments__header">
       <div class="appointments__time">
-        <time class="appointments__time__value" datetime="2008-02-14 11:11">11:11 AM</time>
-        <p class="appointments__time__text">Good morning</p>
+        <time id="appointments__time-id" class="appointments__time__value" datetime="2008-02-14 11:11">11:11 AM</time>
+        <p class="appointments__time__text">Hello there</p>
       </div>
     </header>
     <div class="appointments__list appointments__box--half">
@@ -151,20 +150,28 @@
     <div class="appointments__menu appointments__box--half">
       <div class="appointments__menu__wrapper">
         <div class="appointments__menu__item">
-          <i class="appointments__menu__item__icon fas fa-users"></i>
-          <h4 class="appointments__menu__item__text">New Meeting</h4>
+          <div class="appointments__menu__item__holder">
+            <i class="appointments__menu__item__icon fas fa-users"></i>
+            <h4 class="appointments__menu__item__text">New Meeting</h4>
+          </div>
         </div>
         <div class="appointments__menu__item">
-          <i class="appointments__menu__item__icon fas fa-phone"></i>
-          <h4 class="appointments__menu__item__text">Call</h4>
+          <div class="appointments__menu__item__holder">
+            <i class="appointments__menu__item__icon fas fa-phone"></i>
+            <h4 class="appointments__menu__item__text">Call</h4>
+          </div>
         </div>
         <div class="appointments__menu__item">
-          <i class="appointments__menu__item__icon far fa-address-card"></i>
-          <h4 class="appointments__menu__item__text">Lorem</h4>
+          <div class="appointments__menu__item__holder">
+            <i class="appointments__menu__item__icon far fa-address-card"></i>
+            <h4 class="appointments__menu__item__text">Lorem</h4>
+          </div>
         </div>
         <div class="appointments__menu__item">
-          <i class="appointments__menu__item__icon fas fa-tv"></i>
-          <h4 class="appointments__menu__item__text">Find a room</h4>
+          <div class="appointments__menu__item__holder">
+            <i class="appointments__menu__item__icon fas fa-building"></i>
+            <h4 class="appointments__menu__item__text">Find a room</h4>
+          </div>
         </div>
       </div>
     </div>
@@ -173,7 +180,7 @@
         <i class="appointments__volume__icon fas fa-volume-up"></i>
         <input class="appointments__volume__range" type="range" min="1" max="100" value="50" >
       </div>
-      <i class="appointments__settings__icon appointments__footer__item fas fa-cog"></i>
+      <i class="appointments__footer__item fas fa-cog"></i>
     </footer>
   </div>
 </body>

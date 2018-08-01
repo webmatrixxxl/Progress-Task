@@ -1,0 +1,250 @@
+.appointments {
+  $tb-padding: 3%;
+  display: flex;
+  flex-flow: row;
+  width: 100%;
+  height: 100%;
+  color: #fff;
+  background: #134e5e;
+  background: linear-gradient(to top, #1e4752, #5b8098);
+  overflow: auto;
+  padding: $tb-padding 2.8%;
+  position: relative;
+  font-size: 1.2vw;
+  font-family: 'Nanum Gothic', sans-serif;
+
+  @media (min-width: 1025px) and (max-width: 1280px) {
+    font-size: 1.6vw;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 2.2vw;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 100%;
+  }
+
+  &__box {
+    &--half {
+      flex: 1 0 50%;
+    }
+  }
+
+  &__header {
+    display: flex;
+    position: fixed;
+    right: $tb-padding;
+    top: 2%;
+  }
+
+  &__time {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+
+    &__value {
+      font-size: 300%;
+    }
+
+    &__text {
+      margin: 0px;
+      font-size: 100%;
+      font-weight: 700;
+    }
+  }
+
+  &__list {
+    display: flex;
+    flex-flow: column;
+    align-self: flex-start;
+    min-width: 300px;
+
+    &__item {
+      cursor: pointer;
+      display: flex;
+      flex-flow: column;
+      justify-content: space-between;
+      padding: 4%;
+      background-color: rgba(38, 56, 78, 0.4);
+      transition: 0.1s ease background-color;
+
+      &:hover {
+        background-color: #3393DD;
+
+        .appointments__list__item__btn {
+          border-color: #60b9f3;
+        }
+      }
+
+      & + & {
+        margin-top: 2%;
+      }
+
+      &__body {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+      }
+
+      &__duration {
+        font-size: 64%;
+      }
+
+      &__title {
+        font-size: 100%;
+
+        & + .appointments__list__item__attendees {
+          margin-top: 5px;
+        }
+      }
+
+      &__attendees {
+        font-size: 60%;
+      }
+
+      &__footer {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      &__btn {
+        display: block;
+        padding: 1% 7%;
+        background: transparent;
+        border: 2px solid #5b8098;
+        color: inherit;
+        text-align: center;
+        font-size: 80%;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__menu {
+    position: sticky;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1%;
+    overflow: auto;
+
+    &__wrapper {
+      display: flex;
+      flex-flow: row wrap;
+      align-self: center;
+      justify-content: center;
+      width: 80%;
+    }
+
+    &__item {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      flex: 0 0 33%;
+      margin: 4%;
+
+      &__holder {
+        cursor: pointer;
+
+        &:hover  {
+          .appointments__menu__item__icon,
+          .appointments__menu__item__text {
+            color: #60b9f3;
+
+            &:after {
+              background-color: rgba(38, 56, 78, 0.18);
+            }
+          }
+        }
+      }
+
+      &__icon {
+        $ring-size: 13vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 230%;
+        position: relative;
+        width: $ring-size;
+        height: $ring-size;
+        min-width: 80px;
+        min-height: 80px;
+        max-height: $ring-size;
+        max-width: $ring-size;
+
+        &::after {
+          content: '';
+          display: block;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 100%;
+          height: 100%;
+          min-width: 100%;
+          min-height: 100%;
+          max-width: 100%;
+          max-height: 100%;
+          border: 2px solid rgba(238, 238, 238, 0.3);
+          border-radius: 50%;
+          transition: 0.1s ease background-color;
+        }
+
+        + .appointments__menu__item__text {
+          margin-top: 2vh;
+        }
+      }
+
+      &__text {
+        text-align: center;
+        font-size: 80%;
+      }
+    }
+  }
+
+  &__volume {
+    display: flex;
+    font-size: 125%;
+
+    i {
+      font-size: inherit;
+    }
+
+    &__icon {
+      margin-right: 10%;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      background: #fff;
+      width: 8vw;
+      height: 1vw;
+      max-height: 0.6vh;
+      min-width: 140px;
+      border-radius: 6vw;
+    }
+  }
+
+
+  &__footer {
+    display: flex;
+    position: fixed;
+    right: $tb-padding;
+    bottom: 4.5%;
+
+    &__item {
+      display: flex;
+      align-items: center;
+      font-size: 125%;
+
+      & + & {
+        margin-left: 60px;
+      }
+    }
+  }
+}
