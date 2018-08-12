@@ -26,24 +26,28 @@
       }
     },
     _unqueCounter: 0,
-    open: function(accTriggerEl, accId) {
+    open: function(accTriggerEl) {
+      var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
+      console.log(this.accordionObjList[accId].isInProggress);
       if (this.accordionObjList[accId].isInProggress) return;
 
       console.log('open');
 
       this.accordionObjList[accId].isInProggress = true;
       accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
-      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
+      var bodyObjs = this.accordionObjList[accId].accEls.bodyObjs;
 
-      for (var i = bodyEls.length - 1; i >= 0; i--) {
-        var isAnimated = this._isElAnimated(bodyEls[i]);
-        if (!isAnimated) this._onBeforeOpen(bodyEls[i], accId);
-        bodyEls[i].classList.add('active');
-        bodyEls[i].style.height = (this.accordionObjList[accId].isOpened ? 0 : bodyEls[i].scrollHeight) + 'px';
-        if (!isAnimated) this._onAfterOpen(bodyEls[i], accId);
+      for (var i = bodyObjs.length - 1; i >= 0; i--) {
+        var isAnimated = this._isElAnimated(bodyObjs[i].bodyEl);
+        if (!isAnimated) this._onBeforeOpen(i.bodyEl, accId);
+        bodyObjs[i].bodyEl.classList.add('active');
+        bodyObjs[i].bodyEl.style.height = (this.accordionObjList[accId].isOpened ? 0 : bodyObjs[i].bodyEl.scrollHeight) + 'px';
+        if (!isAnimated) this._onAfterOpen(i, accId);
       }
     },
-    close: function(accTriggerEl, accId) {
+    close: function(accTriggerEl) {
+      var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
+
       if (this.accordionObjList[accId].isInProggress) return;
 
       console.log('close');
@@ -51,18 +55,18 @@
       this.accordionObjList[accId].isInProggress = true;
 
       accTriggerEl.classList.remove(this.options.settings.triggerActiveClass);
-      var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
+      var bodyEls = this.accordionObjList[accId].accEls.bodyObjs;
 
       for (var i = bodyEls.length - 1; i >= 0; i--) {
-        var isAnimated = this._isElAnimated(bodyEls[i]);
-        if (!isAnimated) this._onBeforeClose(bodyEls[i], accId);
-        bodyEls[i].style.height = bodyEls[i].scrollHeight + 'px';
-        bodyEls[i].classList.remove('active');
+        var isAnimated = this._isElAnimated(bodyEls[i].bodyEl);
+        if (!isAnimated) this._onBeforeClose(bodyEls[i].bodyEl, accId);
+        bodyEls[i].bodyEl.classList.remove('active');
+        bodyEls[i].bodyEl.style.height = bodyEls[i].bodyEl.scrollHeight + 'px';
 
         setTimeout(function(bodyEl) {
           bodyEl.style.height = 0 + 'px';
           if (!isAnimated) this._onAfterClose(bodyEl, accId);
-        }.bind(this, bodyEls[i]), 0);
+        }.bind(this, bodyEls[i].bodyEl), 0);
       }
     },
     refresh: function() {
@@ -132,7 +136,7 @@
         isOpened: false,
         accEls: {
           triggersEls: [],
-          bodyEls: []
+          bodyObjs: []
         }
       };
     },
@@ -162,61 +166,75 @@
     _triggerClick: function(accTriggerEl) {
       var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
 
-      if (!this.accordionObjList[accId].accEls.bodyEls.length) {
+      if (!this.accordionObjList[accId].accEls.bodyObjs.length) {
         var bodyElsSelector = '.' + this.options.settings.bodyClass + '[' + this.options.settings.accordionIdData + '="' + accId + '"]';
         var bodyEls = this.accordionObjList[accId].element.querySelectorAll(bodyElsSelector);
-        this.accordionObjList[accId].accEls.bodyEls = bodyEls;
+        this.accordionObjList[accId].accEls.bodyObjs = [];
 
         for (var i = bodyEls.length - 1; i >= 0; i--) {
-          this.accordionObjList[accId].accEls._startAnimation = this._startAnimation.bind(this, bodyEls[i], accId);
-          this.accordionObjList[accId].accEls._endAnimation = this._endAnimation.bind(this, bodyEls[i], accId);
+          var bodyObj = {
+            bodyEl: bodyEls[i],
+            isOpened: false,
+            isInProggress: false,
+            _startAnimation: this._startAnimation.bind(this, i, accId),
+            _endAnimation: this._endAnimation.bind(this, i, accId)
+          };
 
-          bodyEls[i].addEventListener('animationstart', this.accordionObjList[accId].accEls._startAnimation);
-          bodyEls[i].addEventListener('animationend', this.accordionObjList[accId].accEls._endAnimation);
-          bodyEls[i].addEventListener('transitionstart', this.accordionObjList[accId].accEls._startAnimation);
-          bodyEls[i].addEventListener('transitionend', this.accordionObjList[accId].accEls._endAnimation);
+          this.accordionObjList[accId].accEls.bodyObjs.push(bodyObj)
+
+          bodyEls[i].addEventListener('animationstart', bodyObj._startAnimation);
+          bodyEls[i].addEventListener('animationend', bodyObj._endAnimation);
+          bodyEls[i].addEventListener('transitionstart', bodyObj._startAnimation);
+          bodyEls[i].addEventListener('transitionend', bodyObj._endAnimation);
         }
       }
 
       if (this.accordionObjList[accId].isOpened) {
-        this.close(accTriggerEl, accId);
+        this.close(accTriggerEl);
       } else {
-        this.open(accTriggerEl, accId);
+        this.open(accTriggerEl);
       }
     },
     _onBeforeOpen: function(bodyEl, accId) {
 
     },
-    _onAfterOpen: function(bodyEl, accId) {
-      bodyEl.style.height = 'auto';
+    _onAfterOpen: function(bodyObjId, accId) {
+      this.accordionObjList[accId].accEls.bodyObjs[bodyObjId].bodyEl.style.height = 'auto';
+      this.accordionObjList[accId].accEls.bodyObjs[bodyObjId].isOpened = true;
+      this.accordionObjList[accId].accEls.bodyObjs[bodyObjId].isInProggress = false;
+
       this.accordionObjList[accId].isOpened = true;
       this.accordionObjList[accId].isInProggress = false;
-
     },
     _onBeforeClose: function(bodyEl, accId) {
 
     },
-    _onAfterClose: function(bodyEl, accId) {
+    _onAfterClose: function(bodyObjId, accId) {
+      this.accordionObjList[accId].accEls.bodyObjs[bodyObjId].isOpened = false;
+      this.accordionObjList[accId].accEls.bodyObjs[bodyObjId].isInProggress = false;
+
       this.accordionObjList[accId].isOpened = false;
       this.accordionObjList[accId].isInProggress = false;
     },
-    _startAnimation: function(bodyEl, accId) {
+    _startAnimation: function(bodyObjId, accId) {
+      console.log(arguments);
+      console.log(bodyObjId);
       if (!this.accordionObjList[accId].isOpened) {
         console.log('befor opening start');
-        this._onBeforeOpen(bodyEl, accId);
+        this._onBeforeOpen(bodyObjId, accId);
       } else {
-        this._onBeforeClose(bodyEl, accId);
+        this._onBeforeClose(bodyObjId, accId);
         console.log('befor closing start');
       }
       // TODO: implement some events
     },
-    _endAnimation: function(bodyEl, accId) {
+    _endAnimation: function(bodyObjId, accId) {
       if (!this.accordionObjList[accId].isOpened) {
         console.log('after opening finished');
-        this._onAfterOpen(bodyEl, accId);
+        this._onAfterOpen(bodyObjId, accId);
       } else {
         console.log('after closing finished');
-        this._onAfterClose(bodyEl, accId);
+        this._onAfterClose(bodyObjId, accId);
       }
 
       // TODO: implement some events
