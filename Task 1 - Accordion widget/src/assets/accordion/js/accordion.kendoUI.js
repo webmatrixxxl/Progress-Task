@@ -27,27 +27,43 @@
     },
     _unqueCounter: 0,
     open: function(accTriggerEl, accId) {
-      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
+      if (this.accordionObjList[accId].isInProggress) return;
 
+      console.log('open');
+
+      this.accordionObjList[accId].isInProggress = true;
+      accTriggerEl.classList.add(this.options.settings.triggerActiveClass);
       var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
 
       for (var i = bodyEls.length - 1; i >= 0; i--) {
+        var isAnimated = this._isElAnimated(bodyEls[i]);
+        if (!isAnimated) this._onBeforeOpen(bodyEls[i], accId);
         bodyEls[i].classList.add('active');
         bodyEls[i].style.height = (this.accordionObjList[accId].isOpened ? 0 : bodyEls[i].scrollHeight) + 'px';
+        if (!isAnimated) this._onAfterOpen(bodyEls[i], accId);
       }
-
-      this.accordionObjList[accId].isOpened = true;
     },
     close: function(accTriggerEl, accId) {
+      if (this.accordionObjList[accId].isInProggress) return;
+
+      console.log('close');
+
+      this.accordionObjList[accId].isInProggress = true;
+
       accTriggerEl.classList.remove(this.options.settings.triggerActiveClass);
       var bodyEls = this.accordionObjList[accId].accEls.bodyEls;
 
       for (var i = bodyEls.length - 1; i >= 0; i--) {
+        var isAnimated = this._isElAnimated(bodyEls[i]);
+        if (!isAnimated) this._onBeforeClose(bodyEls[i], accId);
+        bodyEls[i].style.height = bodyEls[i].scrollHeight + 'px';
         bodyEls[i].classList.remove('active');
-        bodyEls[i].style.height = (this.accordionObjList[accId].isOpened ? 0 : bodyEls[i].scrollHeight) + 'px';
-      }
 
-      this.accordionObjList[accId].isOpened = false;
+        setTimeout(function(bodyEl) {
+          bodyEl.style.height = 0 + 'px';
+          if (!isAnimated) this._onAfterClose(bodyEl, accId);
+        }.bind(this, bodyEls[i]), 0);
+      }
     },
     refresh: function() {
       if (!this.options.dataSource) {
@@ -115,8 +131,8 @@
         element: accHoldeEl,
         isOpened: false,
         accEls: {
-          triggersEls: null,
-          bodyEls: null
+          triggersEls: [],
+          bodyEls: []
         }
       };
     },
@@ -131,22 +147,34 @@
     _setTriggersEvent: function(accTriggerEl) {
       accTriggerEl.addEventListener('click', this._triggerClick.bind(this, accTriggerEl));
     },
+    _isElAnimated: function(el) {
+      var isAnimated = false;
+      var style = window.getComputedStyle(el, null);
+      var animDuration = parseFloat(style.getPropertyValue('animation-duration') || '0');
+      var transDuration = parseFloat(style.getPropertyValue('transition-duration') || '0');
+
+      if (animDuration > 0 || transDuration > 0) {
+        isAnimated = true;
+      }
+
+      return isAnimated;
+    },
     _triggerClick: function(accTriggerEl) {
       var accId = accTriggerEl.getAttribute(this.options.settings.accordionIdData);
 
-      if (!this.accordionObjList[accId].accEls.bodyEls) {
+      if (!this.accordionObjList[accId].accEls.bodyEls.length) {
         var bodyElsSelector = '.' + this.options.settings.bodyClass + '[' + this.options.settings.accordionIdData + '="' + accId + '"]';
         var bodyEls = this.accordionObjList[accId].element.querySelectorAll(bodyElsSelector);
         this.accordionObjList[accId].accEls.bodyEls = bodyEls;
 
         for (var i = bodyEls.length - 1; i >= 0; i--) {
-          this._startAnimation = this._startAnimation.bind(this, bodyEls[i], accId);
-          this._endAnimation = this._endAnimation.bind(this, bodyEls[i], accId);
+          this.accordionObjList[accId].accEls._startAnimation = this._startAnimation.bind(this, bodyEls[i], accId);
+          this.accordionObjList[accId].accEls._endAnimation = this._endAnimation.bind(this, bodyEls[i], accId);
 
-          bodyEls[i].addEventListener('animationstart', this._startAnimation);
-          bodyEls[i].addEventListener('animationend', this._endAnimation);
-          bodyEls[i].addEventListener('transitionstart', this._startAnimation);
-          bodyEls[i].addEventListener('transitionend', this._endAnimation);
+          bodyEls[i].addEventListener('animationstart', this.accordionObjList[accId].accEls._startAnimation);
+          bodyEls[i].addEventListener('animationend', this.accordionObjList[accId].accEls._endAnimation);
+          bodyEls[i].addEventListener('transitionstart', this.accordionObjList[accId].accEls._startAnimation);
+          bodyEls[i].addEventListener('transitionend', this.accordionObjList[accId].accEls._endAnimation);
         }
       }
 
@@ -156,20 +184,39 @@
         this.open(accTriggerEl, accId);
       }
     },
-    _startAnimation: function(el, accId) {
-      if (this.accordionObjList[accId].isOpened) {
+    _onBeforeOpen: function(bodyEl, accId) {
+
+    },
+    _onAfterOpen: function(bodyEl, accId) {
+      bodyEl.style.height = 'auto';
+      this.accordionObjList[accId].isOpened = true;
+      this.accordionObjList[accId].isInProggress = false;
+
+    },
+    _onBeforeClose: function(bodyEl, accId) {
+
+    },
+    _onAfterClose: function(bodyEl, accId) {
+      this.accordionObjList[accId].isOpened = false;
+      this.accordionObjList[accId].isInProggress = false;
+    },
+    _startAnimation: function(bodyEl, accId) {
+      if (!this.accordionObjList[accId].isOpened) {
         console.log('befor opening start');
+        this._onBeforeOpen(bodyEl, accId);
       } else {
+        this._onBeforeClose(bodyEl, accId);
         console.log('befor closing start');
       }
-
       // TODO: implement some events
     },
-    _endAnimation: function(el, accId) {
-      if (this.accordionObjList[accId].isOpened) {
+    _endAnimation: function(bodyEl, accId) {
+      if (!this.accordionObjList[accId].isOpened) {
         console.log('after opening finished');
+        this._onAfterOpen(bodyEl, accId);
       } else {
         console.log('after closing finished');
+        this._onAfterClose(bodyEl, accId);
       }
 
       // TODO: implement some events
